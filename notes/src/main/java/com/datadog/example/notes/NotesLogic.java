@@ -9,9 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import java.util.List;
 
 @Component
@@ -21,7 +21,8 @@ public class NotesLogic {
     private EntityManager em;
 
     private final NotesHelper nh = new NotesHelper();
-    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final OkHttpClient httpClient = new OkHttpClient();
+
 
     public List<Note> getAll() throws InterruptedException {
         List<Note> allNotes = em.createQuery("from Note", Note.class).getResultList();
@@ -39,11 +40,12 @@ public class NotesLogic {
     public Note createNote(String desc, String addDate) throws IOException, InterruptedException {
         Note note = new Note();
         if (addDate != null && addDate.equalsIgnoreCase("y")) {
-            HttpRequest cReq = HttpRequest.newBuilder().uri(URI.create("http://localhost:9090/calendar")).GET().build();
-            HttpResponse<String> cResp = httpClient.send(cReq, HttpResponse.BodyHandlers.ofString());
-            ObjectMapper obj = new ObjectMapper();
-            String date = obj.readValue(cResp.body(), String.class);
-            desc = desc + " with date " + date;
+            Request cReq = new Request.Builder().url("http://localhost:9090/calendar").build();
+            try (Response cResp = httpClient.newCall(cReq).execute()) {
+                ObjectMapper obj = new ObjectMapper();
+                String date = obj.readValue(cResp.body().string(), String.class);
+                desc = desc + " with date " + date;
+            }
         }
         note.setDescription(desc);
         em.persist(note);
