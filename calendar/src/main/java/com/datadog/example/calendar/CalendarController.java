@@ -18,7 +18,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "calendar")
@@ -31,7 +34,7 @@ public class CalendarController {
     @GET
     public String getDate(@Context HttpHeaders headers) throws IOException {
         // dump the headers
-        var m = headers.getRequestHeaders();
+        Map<String,List<String>> m = headers.getRequestHeaders();
         m.forEach((k, v) -> {
             System.out.format("%s: %s\n", k, Arrays.toString(v.toArray()));
         });
