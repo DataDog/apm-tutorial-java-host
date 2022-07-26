@@ -1,5 +1,5 @@
 
-version: '1'
+version: '3'
 services:
   notes_app:
     container_name: notes
@@ -14,6 +14,8 @@ services:
     #  - DD_AGENT_HOST=host.docker.internal # Uncomment when running Datadog agent on host
       - DD_TRACE_AGENT_PORT=8126
       - CALENDAR_HOST=calendar
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - calendar_app
 
@@ -29,7 +31,9 @@ services:
       - DD_AGENT_HOST=datadog # Uncomment for running Datadog agent in container
     #  - DD_AGENT_HOST=host.docker.internal # Uncomment when running Datadog agent on host
       - DD_TRACE_AGENT_PORT=8126
-
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      
   datadog:
     container_name: dd-agent
     image: "gcr.io/datadoghq/agent:latest"
