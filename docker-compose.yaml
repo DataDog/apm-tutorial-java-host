@@ -1,0 +1,45 @@
+
+version: '1'
+services:
+  notes_app:
+    container_name: notes
+    restart: always
+    build: 
+      context: .
+      dockerfile: dockerfile.notes
+    ports:
+      - 8080:8080
+    environment:
+      - DD_AGENT_HOST=datadog # Uncomment for running Datadog agent in container
+    #  - DD_AGENT_HOST=host.docker.internal # Uncomment when running Datadog agent on host
+      - DD_TRACE_AGENT_PORT=8126
+      - CALENDAR_HOST=calendar
+    depends_on:
+      - calendar_app
+
+  calendar_app:
+    container_name: calendar
+    restart: always
+    build: 
+      context: .
+      dockerfile: dockerfile.calendar
+    ports:
+      - 9090:9090
+    environment:
+      - DD_AGENT_HOST=datadog # Uncomment for running Datadog agent in container
+    #  - DD_AGENT_HOST=host.docker.internal # Uncomment when running Datadog agent on host
+      - DD_TRACE_AGENT_PORT=8126
+
+  datadog:
+    container_name: dd-agent
+    image: "gcr.io/datadoghq/agent:latest"
+    env_file:
+      - ~/sandbox.docker.env
+    environment:
+    - DD_SITE=datadoghq.com
+    - DD_APM_ENABLED=true
+    - DD_APM_NON_LOCAL_TRAFFIC=true
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /proc/:/host/proc/:ro
+    - /sys/fs/cgroup:/host/sys/fs/cgroup:ro

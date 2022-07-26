@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.IOException;
-import java.net.URI;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -38,9 +37,14 @@ public class NotesLogic {
 
     @Transactional
     public Note createNote(String desc, String addDate) throws IOException, InterruptedException {
+        //Switch URL for calendar app based on location of program execution
+        String host = new String("localhost");
+        if(!System.getenv("CALENDAR_HOST").isEmpty())
+            host=System.getenv("CALENDAR_HOST");
+
         Note note = new Note();
         if (addDate != null && addDate.equalsIgnoreCase("y")) {
-            Request cReq = new Request.Builder().url("http://localhost:9090/calendar").build();
+            Request cReq = new Request.Builder().url("http://" + host + ":9090/calendar").build();
             try (Response cResp = httpClient.newCall(cReq).execute()) {
                 ObjectMapper obj = new ObjectMapper();
                 String date = obj.readValue(cResp.body().string(), String.class);

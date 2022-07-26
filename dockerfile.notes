@@ -1,0 +1,17 @@
+FROM openjdk:11 as build
+
+RUN apt-get update; apt-get install curl
+
+WORKDIR /home/apm-tutorial-java
+
+RUN curl -Lo dd-java-agent.jar https://dtdg.co/latest-java-tracer 
+COPY notes notes/  
+
+WORKDIR /home/apm-tutorial-java/notes
+
+# Uncomment to compile with maven
+#ENTRYPOINT ["sh","./scripts/mvn_instrumented_run.sh"]  
+
+# Uncomment to compile with gradle
+ENTRYPOINT ["sh","./scripts/gradle_instrumented_run.sh"]
+
