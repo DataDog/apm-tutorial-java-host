@@ -9,13 +9,9 @@ services:
       dockerfile: dockerfile.notes
     ports:
       - 8080:8080
+    network_mode: host
     environment:
-      - DD_AGENT_HOST=datadog # Uncomment for running Datadog agent in container
-    #  - DD_AGENT_HOST=host.docker.internal # Uncomment when running Datadog agent on host
-      - DD_TRACE_AGENT_PORT=8126
-      - CALENDAR_HOST=calendar
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+      - CALENDAR_HOST=localhost
     depends_on:
       - calendar_app
 
@@ -25,14 +21,9 @@ services:
     build: 
       context: .
       dockerfile: dockerfile.calendar
+    network_mode: host
     ports:
       - 9090:9090
-    environment:
-      - DD_AGENT_HOST=datadog # Uncomment for running Datadog agent in container
-    #  - DD_AGENT_HOST=host.docker.internal # Uncomment when running Datadog agent on host
-      - DD_TRACE_AGENT_PORT=8126
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
       
   datadog:
     container_name: dd-agent
