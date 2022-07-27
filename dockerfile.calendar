@@ -10,8 +10,13 @@ COPY calendar calendar/
 WORKDIR /home/apm-tutorial-java/calendar
 
 # Uncomment to compile with maven
-#ENTRYPOINT ["sh","./scripts/mvn_instrumented_run.sh"]  
+RUN ./mvnw clean
+RUN ./mvnw package
+ENTRYPOINT ["java" , "-javaagent:../dd-java-agent.jar", "-XX:FlightRecorderOptions=stackdepth=256" , "-Ddd.trace.sample.rate=1" ,"-Ddd.service=notes" ,"-Ddd.env=staging" , "-Ddd.version=0.0.1" , "-jar" , "target/calendar-0.0.1-SNAPSHOT.jar"]  
 
 # Uncomment to compile with gradle
-ENTRYPOINT ["sh","./scripts/gradle_instrumented_run.sh"]
+#RUN ./gradlew clean
+#RUN ./gradlew shadowJar
+#ENTRYPOINT ["java","-javaagent:../dd-java-agent.jar", "-Ddd.trace.sample.rate=1" , "-Ddd.service=notes" , "-Ddd.env=dev" , "-Ddd.version=0.0.1", "-jar" , "build/libs/calendar-0.0.1-SNAPSHOT-all.jar"]
+
 

@@ -39,7 +39,7 @@ public class NotesLogic {
     public Note createNote(String desc, String addDate) throws IOException, InterruptedException {
         //Switch URL for calendar app based on location of program execution
         String host = new String("localhost");
-        if(!System.getenv("CALENDAR_HOST").isEmpty())
+        if(System.getenv("CALENDAR_HOST") != null && !System.getenv("CALENDAR_HOST").isBlank())
             host=System.getenv("CALENDAR_HOST");
 
         Note note = new Note();

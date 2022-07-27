@@ -28,6 +28,7 @@ services:
   datadog:
     container_name: dd-agent
     image: "gcr.io/datadoghq/agent:latest"
+    privileged: true
     env_file:
       - ~/sandbox.docker.env
     environment:
