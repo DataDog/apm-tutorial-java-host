@@ -1,18 +1,18 @@
 
+#Use when service and agent are running on docker
 version: '3'
 services:
   notes:
     container_name: notes
     restart: always
     build: 
-      context: .
-      dockerfile: dockerfile.notes
+      context: ../
+      dockerfile: notes/dockerfile.notes
     ports:
       - 8080:8080
     environment:
       - CALENDAR_HOST=calendar
       - DD_AGENT_HOST=datadog
-      - DD_SERVICE=notes
     depends_on:
       - calendar
       - datadog
@@ -21,11 +21,10 @@ services:
     container_name: calendar
     restart: always
     build: 
-      context: .
-      dockerfile: dockerfile.calendar
+      context: ../
+      dockerfile: calendar/dockerfile.calendar
     environment:
       - DD_AGENT_HOST=datadog
-      - DD_SERVICE=calendar
     ports:
       - 9090:9090
     depends_on:
@@ -38,9 +37,9 @@ services:
     env_file:
       - ~/sandbox.docker.env
     environment:
-    - DD_APM_ENABLED=true
-    - DD_APM_NON_LOCAL_TRAFFIC=true
+      - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
     volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
-    - /proc/:/host/proc/:ro
-    - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro

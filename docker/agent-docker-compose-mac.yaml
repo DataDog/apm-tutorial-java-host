@@ -1,0 +1,17 @@
+#Use when service is locally on Mac and agent is running on docker
+version: '3'
+services:
+  datadog:
+    container_name: datadog
+    image: "gcr.io/datadoghq/agent:latest"
+    env_file:
+      - ~/sandbox.docker.env
+    ports:
+      - 8126:8126
+    environment:
+      - DD_APM_ENABLED=true
+      - DD_APM_NON_LOCAL_TRAFFIC=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc/:/host/proc/:ro
+      - /sys/fs/cgroup:/host/sys/fs/cgroup:ro

@@ -1,0 +1,29 @@
+#Use when service is running on docker and agent is running locally on Mac
+version: '3'
+services:
+  notes:
+    container_name: notes
+    restart: always
+    build: 
+       context: ../
+       dockerfile: notes/dockerfile.notes
+    ports:
+      - 8080:8080
+    environment:
+      - DD_AGENT_HOST=host.docker.internal 
+      - DD_TRACE_AGENT_PORT=8126
+      - CALENDAR_HOST=calendar
+    depends_on:
+      - calendar
+
+  calendar:
+    container_name: calendar
+    restart: always
+    build: 
+      context: ../
+      dockerfile: calendar/dockerfile.calendar
+    ports:
+      - 9090:9090
+    environment:
+      - DD_AGENT_HOST=host.docker.internal
+      - DD_TRACE_AGENT_PORT=8126
