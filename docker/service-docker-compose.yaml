@@ -1,12 +1,12 @@
-
+#Use when service is running on docker and agent is running locally on Linux
 version: '3'
 services:
   notes:
     container_name: notes
     restart: always
     build: 
-      context: .
-      dockerfile: dockerfile.notes
+       context: ../
+       dockerfile: notes/dockerfile.notes
     network_mode: host
     ports:
       - 8080:8080
@@ -17,8 +17,8 @@ services:
     container_name: calendar
     restart: always
     build: 
-      context: .
-      dockerfile: dockerfile.calendar
+      context: ../
+      dockerfile: calendar/dockerfile.calendar
     network_mode: host
     ports:
       - 9090:9090

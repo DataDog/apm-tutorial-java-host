@@ -1,9 +1,2 @@
 .DS_Store
 dd-java-agent.jar
-
-
-notes/src/main/java/com/datadog/example/notes/NotesHelper.java
-notes/build.gradle
-notes/pom.xml
-calendar/build.gradle
-calendar/pom.xml
