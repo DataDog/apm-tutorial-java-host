@@ -5,7 +5,8 @@ services:
     container_name: datadog
     image: "gcr.io/datadoghq/agent:latest"
     pid: host
-    network_mode: host
+    ports:
+      - 8126:8126    
     env_file:
       - ~/sandbox.docker.env
     environment:

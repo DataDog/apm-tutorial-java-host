@@ -1,6 +1,6 @@
 FROM openjdk:11 as build
 
-RUN apt-get update; apt-get install curl
+RUN apt-get update -y; apt-get install curl -y
 
 WORKDIR /home/apm-tutorial-java
 
