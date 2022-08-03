@@ -12,10 +12,10 @@ services:
       - 8080:8080
     environment:
       - CALENDAR_HOST=calendar
-      - DD_AGENT_HOST=datadog
+      - DD_AGENT_HOST=datadog-agent
     depends_on:
       - calendar
-      - datadog
+      - datadog-agent
 
   calendar:
     container_name: calendar
@@ -24,14 +24,14 @@ services:
       context: ../
       dockerfile: calendar/dockerfile.calendar
     environment:
-      - DD_AGENT_HOST=datadog
+      - DD_AGENT_HOST=datadog-agent
     ports:
       - 9090:9090
     depends_on:
-      - datadog
+      - datadog-agent
       
-  datadog:
-    container_name: datadog
+  datadog-agent:
+    container_name: datadog-agent
     image: "gcr.io/datadoghq/agent:latest"
     pid: host
     env_file:

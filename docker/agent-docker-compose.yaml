@@ -1,8 +1,8 @@
 #Use when service is locally on Linux and agent is running on docker
 version: '3'
 services:
-  datadog:
-    container_name: datadog
+  datadog-agent:
+    container_name: datadog-agent
     image: "gcr.io/datadoghq/agent:latest"
     pid: host
     ports:
