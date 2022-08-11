@@ -1,6 +1,8 @@
-#Use when service is running on docker and agent is running locally on Mac/Windows
+#Use when service is running on docker and agent is running locally on Linux
 #Ensure that agent is configured for container data by setting apm_config and apm_non_local_traffic:true in datadog.yaml file
-
+#If docker version less than 20.10
+  #replace host.docker.internal with IP of docker0 to give container access to agent on host
+  #remove extra hosts configurations on containers
 version: '3'
 services:
   notes:
@@ -11,9 +13,11 @@ services:
        dockerfile: notes/dockerfile.notes
     ports:
       - 8080:8080
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
-      - DD_AGENT_HOST=host.docker.internal 
-    #  - CALENDAR_HOST=calendar
+      - DD_AGENT_HOST=host.docker.internal
+    #  - CALENDAR_HOST=host.docker.internal
     #depends_on:
     #  - calendar
 
@@ -27,3 +31,6 @@ services:
   #    - 9090:9090
   #  environment:
   #    - DD_AGENT_HOST=host.docker.internal
+  #  extra_hosts:
+  #    - "host.docker.internal:host-gateway"
+    
