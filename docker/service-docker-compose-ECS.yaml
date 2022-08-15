@@ -1,0 +1,23 @@
+#Use when service is running on docker and agent is running locally on Linux
+version: '3'
+services:
+  notes:
+    container_name: notes
+    restart: always
+    build: 
+       context: ../
+       dockerfile: notes/dockerfile.notes
+    ports:
+      - 8080:8080
+    depends_on:
+      - calendar
+
+  calendar:
+    container_name: calendar
+    restart: always
+    build: 
+      context: ../
+      dockerfile: calendar/dockerfile.calendar
+    ports:
+      - 9090:9090
+    
