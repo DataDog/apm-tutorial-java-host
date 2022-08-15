@@ -1,4 +1,5 @@
-#Use when service is running on docker and agent is running locally on Linux
+#Use when running application on ECS
+#Creates bare application images as other variables will be set in ECS configuration
 version: '3'
 services:
   notes:
