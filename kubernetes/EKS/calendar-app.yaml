@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calendar-app
+  labels:
+    name: calendar-app-service
+    app: java-tutorial-app
+spec:
+  type: NodePort
+  ports:
+    - port: 9090
+      targetPort: 9090
+      nodePort: 30090
+  selector:
+    name: calendar-app-pod
+    app: java-tutorial-app
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calendar-app-deploy
+  labels:
+    name: calendar-app-deploy
+    app: java-tutorial-app
+spec:
+  replicas: 1
+  selector: 
+    matchLabels:
+      name: calendar-app-pod
+      app: java-tutorial-app
+  template:
+    metadata:
+      name: calendar-app-pod
+      labels:
+        name: calendar-app-pod
+        app: java-tutorial-app
+    spec:
+      containers:
+        - name: calendar-app
+          image: <AWS_USER_PROFILE_HERE>.dkr.ecr.<AWS_REGION_HERE>.amazonaws.com/<AWS_EKS_IMAGE_REPO_NAME>:<IMAGE_TAG>
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 9090
+      restartPolicy: Always
