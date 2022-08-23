@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: calendar-app
-          image: <AWS_USER_PROFILE_HERE>.dkr.ecr.<AWS_REGION_HERE>.amazonaws.com/<AWS_EKS_IMAGE_REPO_NAME>:<IMAGE_TAG>
+          image: CALENDAR_IMAGE_HERE
           imagePullPolicy: Always
           ports:
             - containerPort: 9090
