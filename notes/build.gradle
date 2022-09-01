@@ -8,7 +8,7 @@ plugins {
     id 'java'
     id 'maven-publish'
     id 'application'
-    id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.springframework.boot' version '2.7.3'
 }
 
 repositories {
@@ -43,18 +43,4 @@ mainClassName = 'com.datadog.example.notes.NotesApplication'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-}
-
-shadowJar {
-
-    // Required for Spring
-    mergeServiceFiles()
-    append 'META-INF/spring.handlers'
-    append 'META-INF/spring.schemas'
-    append 'META-INF/spring.tooling'
-    transform(PropertiesFileTransformer) {
-        paths = ['META-INF/spring.factories' ]
-        mergeStrategy = 'append'
-    }
-
 }
