@@ -23,7 +23,7 @@ dependencies {
     //Used below for manual tracing
     
     /*
-    implementation 'com.datadoghq:dd-trace-api:0.104.0'
+    implementation 'com.datadoghq:dd-trace-api:+'
     implementation 'io.opentracing:opentracing-api:0.33.0'
     implementation 'io.opentracing:opentracing-util:0.33.0'
     */
@@ -38,7 +38,7 @@ dependencies {
 group = 'com.datadog.example'
 version = '0.0.1-SNAPSHOT'
 description = 'notes'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = 11
 mainClassName = 'com.datadog.example.notes.NotesApplication'
 
 tasks.withType(JavaCompile) {

@@ -22,6 +22,14 @@ public class NotesLogic {
     private final NotesHelper nh = new NotesHelper();
     private final OkHttpClient httpClient = new OkHttpClient();
 
+    private static String host;
+
+    public NotesLogic(){
+        host = "localhost";
+        if(System.getenv("CALENDAR_HOST") != null && !System.getenv("CALENDAR_HOST").isBlank())
+            host=System.getenv("CALENDAR_HOST");
+    }
+
 
     public List<Note> getAll() throws InterruptedException {
         List<Note> allNotes = em.createQuery("from Note", Note.class).getResultList();
@@ -38,9 +46,6 @@ public class NotesLogic {
     @Transactional
     public Note createNote(String desc, String addDate) throws IOException, InterruptedException {
         //Switch URL for calendar app based on location of program execution
-        String host = "localhost";
-        if(System.getenv("CALENDAR_HOST") != null && !System.getenv("CALENDAR_HOST").isBlank())
-            host=System.getenv("CALENDAR_HOST");
 
         Note note = new Note();
         if (addDate != null && addDate.equalsIgnoreCase("y")) {

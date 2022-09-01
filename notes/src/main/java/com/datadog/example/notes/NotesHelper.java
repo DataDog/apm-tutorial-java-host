@@ -21,7 +21,7 @@ import java.io.StringWriter;*/
 
 public class NotesHelper {
 
-    Logger Log = LoggerFactory.getLogger(NotesHelper.class);
+    private static final Logger Log = LoggerFactory.getLogger(NotesHelper.class);
 
     //Manual trace annotation
     //@Trace(operationName = "traceMethod1", resourceName = "NotesHelper.doLongRunningProcess")

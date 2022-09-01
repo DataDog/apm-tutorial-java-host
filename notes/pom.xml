@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>com.datadoghq</groupId>
 			<artifactId>dd-trace-api</artifactId>
-			<version>0.104.0</version>
+			<version>LATEST</version>
 		</dependency>
 
 		<dependency>

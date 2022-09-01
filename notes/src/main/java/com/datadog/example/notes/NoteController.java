@@ -12,8 +12,7 @@ import java.util.List;
 public class NoteController {
 
     @Inject
-    private NotesLogic notesLogic;
-
+    private NotesLogic notesLogic = new NotesLogic();
 
     @GET
     public List<Note> index() throws InterruptedException {
