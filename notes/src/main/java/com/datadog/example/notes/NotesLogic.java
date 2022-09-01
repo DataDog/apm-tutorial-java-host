@@ -38,7 +38,7 @@ public class NotesLogic {
     @Transactional
     public Note createNote(String desc, String addDate) throws IOException, InterruptedException {
         //Switch URL for calendar app based on location of program execution
-        String host = new String("localhost");
+        String host = "localhost";
         if(System.getenv("CALENDAR_HOST") != null && !System.getenv("CALENDAR_HOST").isBlank())
             host=System.getenv("CALENDAR_HOST");
 

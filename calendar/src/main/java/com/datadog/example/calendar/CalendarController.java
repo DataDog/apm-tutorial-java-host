@@ -30,26 +30,17 @@ import java.util.Random;
 @Consumes(MediaType.APPLICATION_JSON)
 public class CalendarController {
     private final Logger log = LoggerFactory.getLogger(CalendarController.class);
-    private final CalendarHelper ch = new CalendarHelper();
 
     @GET
     public String getDate(@Context HttpHeaders headers) throws IOException, InterruptedException {
-        // dump the headers
-        Map<String,List<String>> m = headers.getRequestHeaders();
-        m.forEach((k, v) -> {
-            System.out.format("%s: %s\n", k, Arrays.toString(v.toArray()));
-        });
+
         // get back a random date in the year 2022
         int val = new Random().nextInt(365);
         LocalDate start = LocalDate.of(2022, Month.JANUARY, 1).plusDays(val);
         String output = start.format(DateTimeFormatter.ISO_LOCAL_DATE);
         log.info("generated date: " + output);
+        
         // the correct JSON output should put this in quotes. Spring does not, so let's put quotes here by hand.
-
-        //Custom instrumentation methods
-        ch.calDoLongRunningProcess();
-        ch.calAnotherProcess();
-
         return String.format("\"%s\"", output);
     }
 }

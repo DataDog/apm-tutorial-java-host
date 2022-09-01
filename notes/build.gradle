@@ -41,14 +41,6 @@ description = 'notes'
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 mainClassName = 'com.datadog.example.notes.NotesApplication'
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
-
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
