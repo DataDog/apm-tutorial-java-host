@@ -1,6 +1,7 @@
 package com.datadog.example.notes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +23,11 @@ public class NotesLogic {
     private final NotesHelper nh = new NotesHelper();
     private final OkHttpClient httpClient = new OkHttpClient();
 
-    private static String host;
+    @Value("${CALENDAR_HOST:localhost}")
+    private String host;
 
     public NotesLogic(){
-        host = "localhost";
-        if(System.getenv("CALENDAR_HOST") != null && !System.getenv("CALENDAR_HOST").isBlank())
-            host=System.getenv("CALENDAR_HOST");
     }
-
 
     public List<Note> getAll() throws InterruptedException {
         List<Note> allNotes = em.createQuery("from Note", Note.class).getResultList();
