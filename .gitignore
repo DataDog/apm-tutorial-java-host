@@ -1,2 +1,4 @@
 .DS_Store
 dd-java-agent.jar
+*.iml
+.idea
