@@ -18,7 +18,10 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "calendar")
@@ -29,17 +32,14 @@ public class CalendarController {
     private final Logger log = LoggerFactory.getLogger(CalendarController.class);
 
     @GET
-    public String getDate(@Context HttpHeaders headers) throws IOException {
-        // dump the headers
-        var m = headers.getRequestHeaders();
-        m.forEach((k, v) -> {
-            System.out.format("%s: %s\n", k, Arrays.toString(v.toArray()));
-        });
+    public String getDate(@Context HttpHeaders headers) throws IOException, InterruptedException {
+
         // get back a random date in the year 2022
         int val = new Random().nextInt(365);
         LocalDate start = LocalDate.of(2022, Month.JANUARY, 1).plusDays(val);
         String output = start.format(DateTimeFormatter.ISO_LOCAL_DATE);
         log.info("generated date: " + output);
+        
         // the correct JSON output should put this in quotes. Spring does not, so let's put quotes here by hand.
         return String.format("\"%s\"", output);
     }

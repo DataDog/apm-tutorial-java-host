@@ -1,0 +1,20 @@
+FROM openjdk:11
+
+RUN apt-get update -y; apt-get install curl -y
+
+WORKDIR /home/apm-tutorial-java
+
+RUN curl -Lo dd-java-agent.jar https://dtdg.co/latest-java-tracer 
+COPY calendar calendar/  
+
+WORKDIR /home/apm-tutorial-java/calendar
+
+# Uncomment to compile with maven
+RUN ./mvnw clean
+RUN ./mvnw package
+
+#Uncomment to run without tracing
+ENTRYPOINT ["java", "-jar", "target/calendar-0.0.1-SNAPSHOT.jar"]
+
+#Uncomment to run with tracing
+#ENTRYPOINT ["java", "-javaagent:../dd-java-agent.jar", "-XX:FlightRecorderOptions=stackdepth=256", "-Ddd.trace.sample.rate=1" ,"-Ddd.service=calendar" ,"-Ddd.env=dev" , "-Ddd.version=0.0.1" , "-jar" , "target/calendar-0.0.1-SNAPSHOT.jar"]  

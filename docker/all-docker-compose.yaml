@@ -1,0 +1,46 @@
+
+#Use when service and agent are running on docker
+version: '3'
+services:
+  notes:
+    container_name: notes
+    restart: always
+    build: 
+      context: ../
+      dockerfile: notes/dockerfile.notes.maven
+    ports:
+      - 8080:8080
+    environment:
+      - DD_AGENT_HOST=datadog-agent
+  #    - CALENDAR_HOST=calendar
+  #  depends_on:
+  #    - calendar
+  #    - datadog-agent
+
+  #calendar:
+  #  container_name: calendar
+  #  restart: always
+  #  build: 
+  #    context: ../
+  #    dockerfile: calendar/dockerfile.calendar.maven
+  #  environment:
+  #    - DD_AGENT_HOST=datadog-agent
+  #  ports:
+  #    - 9090:9090
+  #  depends_on:
+  #    - datadog-agent
+      
+  #datadog-agent:
+  #  container_name: datadog-agent
+  #  image: "gcr.io/datadoghq/agent:latest"
+  #  pid: host
+  #  env_file:
+  #    - ~/sandbox.docker.env
+  #  environment:
+  #    - DD_APM_ENABLED=true
+  #    - DD_APM_NON_LOCAL_TRAFFIC=true
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #    - /proc/:/host/proc/:ro
+  #    - /sys/fs/cgroup:/host/sys/fs/cgroup:ro 
+      

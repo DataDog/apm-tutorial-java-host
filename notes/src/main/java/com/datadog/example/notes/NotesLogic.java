@@ -1,6 +1,7 @@
 package com.datadog.example.notes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,7 +9,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.IOException;
-import java.net.URI;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -23,6 +23,11 @@ public class NotesLogic {
     private final NotesHelper nh = new NotesHelper();
     private final OkHttpClient httpClient = new OkHttpClient();
 
+    @Value("${CALENDAR_HOST:localhost}")
+    private String host;
+
+    public NotesLogic(){
+    }
 
     public List<Note> getAll() throws InterruptedException {
         List<Note> allNotes = em.createQuery("from Note", Note.class).getResultList();
@@ -38,9 +43,11 @@ public class NotesLogic {
 
     @Transactional
     public Note createNote(String desc, String addDate) throws IOException, InterruptedException {
+        //Switch URL for calendar app based on location of program execution
+
         Note note = new Note();
         if (addDate != null && addDate.equalsIgnoreCase("y")) {
-            Request cReq = new Request.Builder().url("http://localhost:9090/calendar").build();
+            Request cReq = new Request.Builder().url("http://" + host + ":9090/calendar").build();
             try (Response cResp = httpClient.newCall(cReq).execute()) {
                 ObjectMapper obj = new ObjectMapper();
                 String date = obj.readValue(cResp.body().string(), String.class);

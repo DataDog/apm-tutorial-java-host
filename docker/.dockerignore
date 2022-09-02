@@ -33,9 +33,7 @@ build/
 .vscode/
 
 .DS_Store
-dd-java-agent.jar
 .gradle
+dd-java-agent.jar
 to_run
-
-src/java/com/datadog/example/notes/NotesHelper.java
 
