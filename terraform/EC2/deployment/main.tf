@@ -16,7 +16,7 @@ resource "aws_ecs_task_definition" "notes_task" {
   container_definitions    = jsonencode([
     {
       name: "notes",
-      image: "${module.settings.aws_ecr_repository}:notes_app",
+      image: "${module.settings.aws_ecr_repository}:notes",
       essential: true,
       portMappings: [
         {
@@ -29,25 +29,15 @@ resource "aws_ecs_task_definition" "notes_task" {
       environment: [
         {
             name: "CALENDAR_HOST",
-            value: "localhost:9090"
-        },
-        {
-            name: "DD_SERVICE",
-            value: "Notes"
-        },
-        {
-            name: "DD_ENV",
-            value: "dev"
-        },
-        {
-            name: "DD_VERSION",
-            value: "0.1.0"
+            value: "localhost"
         }
+        #Can add tags here if needed
+        #Tags also set in image build
       ]
     }
   ])
   requires_compatibilities = ["EC2"] # Stating that we are using ECS 
-  network_mode             = "host"    # Using awsvpc as our network mode as this is required
+  network_mode             = "host"    
   memory                   = 512         # Specifying the memory our container requires
   cpu                      = 256         # Specifying the CPU our container requires
   execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"
@@ -75,22 +65,8 @@ resource "aws_ecs_task_definition" "calendar_task" {
   container_definitions    = jsonencode([
     {
       name: "calendar",
-      image: "${module.settings.aws_ecr_repository}:calendar_app",
+      image: "${module.settings.aws_ecr_repository}:calendar",
       essential: true,
-      environment: [
-        {
-            name: "DD_SERVICE",
-            value: "Calendar"
-        },
-        {
-            name: "DD_ENV",
-            value: "dev"
-        },
-        {
-            name: "DD_VERSION",
-            value: "0.1.0"
-        }
-      ],
       portMappings: [
         {
           containerPort: 9090,
@@ -102,7 +78,7 @@ resource "aws_ecs_task_definition" "calendar_task" {
     }
   ])
   requires_compatibilities = ["EC2"] # Stating that we are using ECS 
-  network_mode             = "host"    # Using awsvpc as our network mode as this is required
+  network_mode             = "host"    
   memory                   = 512         # Specifying the memory our container requires
   cpu                      = 256         # Specifying the CPU our container requires
   execution_role_arn       = "${aws_iam_role.ecsTaskExecutionRole.arn}"

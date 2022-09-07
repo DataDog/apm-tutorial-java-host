@@ -1,8 +1,9 @@
 # Creating a security group for the load balancer:
 resource "aws_security_group" "load_balancer_security_group" {
+  vpc_id             = "${aws_default_vpc.default_vpc.id}"
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 0
+    to_port     = 10000
     protocol    = "tcp"
     cidr_blocks = [format("%s/%s", data.external.whatismyip.result["internet_ip"],32)]
   }
@@ -16,6 +17,7 @@ resource "aws_security_group" "load_balancer_security_group" {
 }
 
 resource "aws_security_group" "service_security_group" {
+  vpc_id             = "${aws_default_vpc.default_vpc.id}"
   ingress {
     from_port = 0
     to_port   = 9090

@@ -39,15 +39,23 @@ resource "aws_lb_target_group" "target_group" {
   protocol    = "HTTP"
   target_type = "instance"
   vpc_id      = "${aws_default_vpc.default_vpc.id}" # Referencing the default VPC
+
+  health_check {
+    matcher = "200"
+    path    = "/notes"
+    interval = 120
+    timeout = 30
+  }
+
 }
 
 resource "aws_lb_listener" "listener" {
   load_balancer_arn = "${aws_alb.application_load_balancer.arn}" # Referencing our load balancer
-  port              = "80"
+  port              = "8080"
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = "${aws_lb_target_group.target_group.arn}" # Referencing our tagrte group
+    target_group_arn = "${aws_lb_target_group.target_group.arn}" # Referencing our target group
   }
 }
 
@@ -71,14 +79,22 @@ resource "aws_lb_target_group" "target_group_2" {
   protocol    = "HTTP"
   target_type = "instance"
   vpc_id      = "${aws_default_vpc.default_vpc.id}" # Referencing the default VPC
+
+  health_check {
+    matcher = "200"
+    path    = "/calendar"
+    interval = 120
+    timeout = 30
+  }
+
 }
 
 resource "aws_lb_listener" "listener_2" {
   load_balancer_arn = "${aws_alb.application_load_balancer_2.arn}" # Referencing our load balancer
-  port              = "80"
+  port              = "9090"
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = "${aws_lb_target_group.target_group_2.arn}" # Referencing our tagrte group
+    target_group_arn = "${aws_lb_target_group.target_group_2.arn}" # Referencing our target group
   }
 }
