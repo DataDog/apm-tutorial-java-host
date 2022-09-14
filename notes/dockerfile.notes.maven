@@ -1,13 +1,5 @@
 FROM openjdk:11
 
-ENV DD_SERVICE="notes"
-ENV DD_ENV="dev"
-ENV DD_VERSION="0.0.1"
-
-LABEL com.datadoghq.tags.service="notes"
-LABEL com.datadoghq.tags.env="dev"
-LABEL com.datadoghq.tags.version="0.0.1"
-
 RUN apt-get update -y; apt-get install curl -y
 
 WORKDIR /home/apm-tutorial-java
