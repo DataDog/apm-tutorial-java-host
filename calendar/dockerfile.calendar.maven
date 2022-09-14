@@ -25,4 +25,4 @@ RUN ./mvnw package
 ENTRYPOINT ["java", "-jar", "target/calendar-0.0.1-SNAPSHOT.jar"]
 
 #Uncomment to run with tracing
-#ENTRYPOINT ["java", "-javaagent:../dd-java-agent.jar", "-Ddd.trace.sample.rate=1" ,"-Ddd.service=calendar" ,"-Ddd.env=dev" , "-Ddd.version=0.0.1" , "-jar" , "target/calendar-0.0.1-SNAPSHOT.jar"]  
+#ENTRYPOINT ["java", "-javaagent:../dd-java-agent.jar", "-Ddd.trace.sample.rate=1", "-jar" , "target/calendar-0.0.1-SNAPSHOT.jar"]  
