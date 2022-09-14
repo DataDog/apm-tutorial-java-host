@@ -34,9 +34,8 @@ services:
   #  container_name: datadog-agent
   #  image: "gcr.io/datadoghq/agent:latest"
   #  pid: host
-  #  env_file:
-  #    - ~/sandbox.docker.env
   #  environment:
+  #    - DD_API_KEY=<DD_API_KEY_HERE> 
   #    - DD_APM_ENABLED=true
   #    - DD_APM_NON_LOCAL_TRAFFIC=true
   #  volumes:

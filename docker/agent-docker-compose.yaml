@@ -4,12 +4,11 @@ services:
   datadog-agent:
     container_name: datadog-agent
     image: "gcr.io/datadoghq/agent:latest"   
-    env_file:
-      - ~/sandbox.docker.env
     pid: host
     ports:
       - 8126:8126 
     environment:
+      - DD_API_KEY=<DD_API_KEY_HERE> 
       - DD_SITE=datadoghq.com
       - DD_APM_NON_LOCAL_TRAFFIC=true
     volumes:
