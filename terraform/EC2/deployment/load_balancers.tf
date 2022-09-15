@@ -22,7 +22,7 @@ resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
 # -------------------------------------------------- Notes Service LB ------------------------------------------ |
 
 resource "aws_alb" "application_load_balancer" {
-  name               = "test-lb-tf-ec2" # Naming our load balancer
+  name               = "test-lb-tf-ec2-java" # Naming our load balancer
   load_balancer_type = "application"
   subnets = [ # Referencing the default subnets
     "${aws_default_subnet.default_subnet_a.id}",
@@ -62,7 +62,7 @@ resource "aws_lb_listener" "listener" {
 # -------------------------------------------------- Calendar Service LB ------------------------------------------ |
 
 resource "aws_alb" "application_load_balancer_2" {
-  name               = "test-lb-tf-2-ec2" # Naming our load balancer
+  name               = "test-lb-tf-2-ec2-java" # Naming our load balancer
   load_balancer_type = "application"
   subnets = [ # Referencing the default subnets
     "${aws_default_subnet.default_subnet_a.id}",
