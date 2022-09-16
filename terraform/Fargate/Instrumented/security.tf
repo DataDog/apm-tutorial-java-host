@@ -6,6 +6,8 @@ resource "aws_security_group" "load_balancer_security_group" {
     to_port     = 10000
     protocol    = "tcp"
     cidr_blocks = [format("%s/%s", data.external.whatismyip.result["internet_ip"],32)]
+    //Replace the below value with machine's own public IPv4 address if necessary
+    //cidr_blocks = ["127.0.0.1/32"]
   }
 
   egress {
