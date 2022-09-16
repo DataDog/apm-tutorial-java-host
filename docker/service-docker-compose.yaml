@@ -11,11 +11,18 @@ services:
        dockerfile: notes/dockerfile.notes.maven
     ports:
       - 8080:8080
+    labels:
+      - com.datadoghq.tags.service="notes"
+      - com.datadoghq.tags.env="dev"
+      - com.datadoghq.tags.version="0.0.1"
     environment:
+      - DD_SERVICE=notes
+      - DD_ENV=dev
+      - DD_VERSION=0.0.1
       - DD_AGENT_HOST=host.docker.internal 
-    #  - CALENDAR_HOST=calendar
-    #depends_on:
-    #  - calendar
+  #    - CALENDAR_HOST=calendar
+  #  depends_on:
+  #    - calendar
 
   #calendar:
   #  container_name: calendar
@@ -25,5 +32,12 @@ services:
   #    dockerfile: calendar/dockerfile.calendar.maven
   #  ports:
   #    - 9090:9090
+  #  labels:
+  #    - com.datadoghq.tags.service="calendar"
+  #    - com.datadoghq.tags.env="dev"
+  #    - com.datadoghq.tags.version="0.0.1"
   #  environment:
+  #    - DD_SERVICE=calendar
+  #    - DD_ENV=dev
+  #    - DD_VERSION=0.0.1
   #    - DD_AGENT_HOST=host.docker.internal

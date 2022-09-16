@@ -15,7 +15,14 @@ services:
       - 8080:8080
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    labels:
+      - com.datadoghq.tags.service="notes"
+      - com.datadoghq.tags.env="dev"
+      - com.datadoghq.tags.version="0.0.1"
     environment:
+      - DD_SERVICE=notes
+      - DD_ENV=dev
+      - DD_VERSION=0.0.1
       - DD_AGENT_HOST=host.docker.internal
     #  - CALENDAR_HOST=host.docker.internal
     #depends_on:
@@ -29,7 +36,14 @@ services:
   #    dockerfile: calendar/dockerfile.calendar.maven
   #  ports:
   #    - 9090:9090
+  #  labels:
+  #    - com.datadoghq.tags.service="notes"
+  #    - com.datadoghq.tags.env="dev"
+  #    - com.datadoghq.tags.version="0.0.1"
   #  environment:
+  #    - DD_SERVICE=notes
+  #    - DD_ENV=dev
+  #    - DD_VERSION=0.0.1
   #    - DD_AGENT_HOST=host.docker.internal
   #  extra_hosts:
   #    - "host.docker.internal:host-gateway"
