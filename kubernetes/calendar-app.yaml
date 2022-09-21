@@ -22,6 +22,9 @@ metadata:
   labels:
     name: calendar-app-deploy
     app: java-tutorial-app
+    tags.datadoghq.com/env: "dev"
+    tags.datadoghq.com/service: "calendar"
+    tags.datadoghq.com/version: "0.0.1"
 spec:
   replicas: 1
   selector: 
@@ -34,6 +37,9 @@ spec:
       labels:
         name: calendar-app-pod
         app: java-tutorial-app
+        tags.datadoghq.com/env: "dev"
+        tags.datadoghq.com/service: "calendar"
+        tags.datadoghq.com/version: "0.0.1"
     spec:
       containers:
         - name: calendar-app
@@ -41,4 +47,17 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 9090
+          env:
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/service']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
       restartPolicy: Always
