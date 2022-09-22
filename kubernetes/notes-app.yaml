@@ -22,6 +22,9 @@ metadata:
   labels:
     name: notes-app-deploy
     app: java-tutorial-app
+    tags.datadoghq.com/env: "dev"
+    tags.datadoghq.com/service: "notes"
+    tags.datadoghq.com/version: "0.0.1"
 spec:
   replicas: 1
   selector: 
@@ -34,6 +37,9 @@ spec:
       labels:
         name: notes-app-pod
         app: java-tutorial-app
+        tags.datadoghq.com/env: "dev"
+        tags.datadoghq.com/service: "notes"
+        tags.datadoghq.com/version: "0.0.1"
     spec:
       containers:
         - name: notes-app
@@ -44,4 +50,16 @@ spec:
           env:
             - name: CALENDAR_HOST
               value: calendar-app
+            - name: DD_ENV
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/env']
+            - name: DD_SERVICE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/service']
+            - name: DD_VERSION
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.labels['tags.datadoghq.com/version']
       restartPolicy: Always
