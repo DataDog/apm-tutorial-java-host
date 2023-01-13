@@ -1,32 +1,120 @@
 # apm-tutorial-java
 Tutorial for Java application used by for agent setup in popular configurations
 
-# Example requests:
+The notes application and calendar application are both REST APIs. The notes application has POST, GET, PUT and DELETE operations for creating, getting, updating and deleting notes. Additionally, the notes application POST /notes method has an additional parameters, add_date, that can be set to 'y' in order to make a call to the calendar application for a random date. This can be used to show distributed tracing across applications.
 
-`curl localhost:8080/notes`
+These are sample Java applications made to run in various deployment scenarios with two different services, a notes application and calendar application, in order to provide sample distributed tracing. The application is used in a tutorial showcasing how to enable APM tracing for an application. The different ways to deploy these applications are:
+- locally on host machine (with Datadog Agent also running on host)
+- within Docker containers (with Datadog Agent also in a container)
+- within Docker containers (with Datadog Agent running on host)
+- Google Kubernetes Engine (GKE)
+- Amazon AWS Elastic Kubernetes Service (AWS EKS)
+- Amazon AWS Elastic Container Service (AWS ECS)
 
-[]
+The sample application is a very simple pair of rest APIs, as seen below. All commands below are for host and/or Docker container deployment situations. For Kubernetes deployments, the URL will be that of the Kubernetes notes or calendar service.
 
-`curl -X POST 'localhost:8080/notes?desc=hello'`
+# REST APIs
 
-{"id":1,"description":"hello"}
+## Calendar Application
 
-`curl localhost:8080/notes/1`
+### `GET /calendar`
 
-{"id":1,"description":"hello"}
+Returns a random date in 2022.
 
-`curl localhost:8080/notes`
+#### Request
 
-[{"id":1,"description":"hello"}]
+```sh
+curl 'http://localhost:9090/calendar'
+```
 
-`curl -X PUT ‘localhost:8080/notes/1/desc=UpdatedNote’`
+#### Response
 
-{"id":1,"description":"UpdatedNote"}
+```json
+{"status":"success","date":"3/22/2022"}
+```
 
-`curl DELETE ‘localhost:8080/notes/1’`
+## Notes Application
 
-Deleted
+### `GET /notes/`
 
-`curl -X POST 'localhost:8080/notes?desc=hello_again&add_date=y'`
+#### Request
 
-{"id":2,"description":"hello_again with date 2022-11-06"}
+```sh
+curl 'http://localhost:8080/notes'
+```
+
+#### Response
+
+```json
+[{ "id": 0, "description": "Hello, this is a note." }]
+```
+
+### `POST /notes`
+
+#### Request - without optional add_date parameter
+
+```sh
+curl -X POST 'http://localhost:8080/notes?desc=ImANote'
+```
+
+#### Response
+
+```json
+{ "id": 1, "description": "ImANote" }
+```
+
+#### Request - with optional add_date parameter
+
+Makes a request to calendar service on port 9090.
+
+```sh
+curl -X POST 'http://localhost:8080/notes?desc=ImANoteWithDate&add_date=y'
+```
+
+#### Response
+
+```json
+{ "id": 2, "description": "HiImANoteWithDate. Message Date: 09/21/2022" }
+```
+
+### `GET /notes/:id`
+
+#### Request
+
+```sh
+curl 'http://localhost:8080/notes/1'
+```
+
+#### Response
+
+```json
+{ "id": 1, "description": "ImANote" }
+```
+
+### `PUT /notes/:id`
+
+#### Request
+
+```sh
+curl -X PUT 'http://localhost:8080/notes/1?desc=UpdatedNote'
+```
+
+#### Response
+
+```json
+{ "id": 1, "description": "UpdatedNote" }
+```
+
+### `DELETE /notes/:id`
+
+#### Request
+
+```sh
+curl -X DELETE 'http://localhost:8080/notes/1'
+```
+
+#### Response
+
+```json
+{ "message": "note with id 4 deleted." }
+```

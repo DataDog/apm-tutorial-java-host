@@ -1,0 +1,5 @@
+Component,Origin,License,Copyright
+spring-framework,maven,Apache-2.0,VMware
+okhttp,maven,Apache-2.0,Square
+h2,maven,MPL-2.0,"Sergi Vladykin"
+opentracing,maven,Apache-2.0,"Cloud Native Computing Foundation"

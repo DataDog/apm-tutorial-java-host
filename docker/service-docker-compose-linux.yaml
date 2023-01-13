@@ -1,3 +1,8 @@
+# Unless explicitly stated otherwise all files in this repository are licensed
+# under the Apache 2.0 License.
+#
+# This product includes software developed at Datadog (https://www.datadoghq.com/)
+# Copyright 2023 Datadog, Inc.
 #Use when service is running on docker and agent is running locally on Linux
 #Ensure that agent is configured for container data by setting apm_config and apm_non_local_traffic:true in datadog.yaml file
 #If docker version less than 20.10
